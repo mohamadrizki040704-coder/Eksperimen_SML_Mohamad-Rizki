@@ -1,0 +1,31 @@
+WORKFLOW CI
+
+Tautan Repository GitHub Workflow-CI (Khusus untuk CI/CD):
+
+https://github.com/mohamadrizki040704-coder/Workflow-CI
+
+
+
+Image Name: mok111/titanic-mlflow:latest
+Repository: https://hub.docker.com/r/mok111/titanic-mlflow
+
+TRIGGER WORKFLOW 
+
+Workflow akan berjalan otomatis ketika:
+1. Push ke branch main/master
+2. Pull Request ke branch main
+3. Manual trigger via GitHub Actions (workflow_dispatch)
+
+CARA MENJALANKAN
+
+# MLflow Project
+mlflow run MLProject/
+
+# Docker
+docker pull mok111/titanic-mlflow:latest
+docker run --rm mok111/titanic-mlflow:latest
+
+STATUS
+
+Repository ini khusus untuk memenuhi Kriteria 3: Workflow CI.
+Semua file yang diperlukan sudah tersedia dan workflow berhasil dijalankan.
