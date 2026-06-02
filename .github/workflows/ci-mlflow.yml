@@ -23,18 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy scikit-learn mlflow
       
-      - name: Run MLflow Project
+      - name: Run training script directly (without mlflow run)
         run: |
-          mlflow run MLProject/
+          cd MLProject
+          python modelling.py
       
       - name: Upload model artifact
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
           path: MLProject/best_model.pkl
-      
-      - name: Upload model metrics
-        uses: actions/upload-artifact@v4
-        with:
-          name: model-metrics
-          path: MLProject/mlruns/
