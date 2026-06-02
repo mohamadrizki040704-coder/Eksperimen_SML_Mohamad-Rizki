@@ -1,0 +1,127 @@
+data:
+  output_path: preprocessing/titanic_preprocessed/
+  processed_path: preprocessing/titanic_preprocessed/
+  raw_path: titanic_raw/train.csv
+experiment:
+  cv_folds: 5
+  random_seed: 42
+  test_size: 0.2
+  validation_size: 0.2
+experiments:
+  EXP_001:
+    description: Minimal preprocessing, median imputation
+    name: Baseline
+    preprocessing:
+      binning:
+        enabled: false
+      feature_engineering:
+        enabled: false
+      handle_missing_values:
+        age_impute_method: median
+  EXP_002:
+    description: Menambahkan title extraction dan family features
+    name: With Feature Engineering
+    preprocessing:
+      binning:
+        enabled: false
+      feature_engineering:
+        enabled: true
+  EXP_003:
+    description: Semua tahapan preprocessing diaktifkan
+    name: Full Preprocessing
+    preprocessing:
+      binning:
+        enabled: true
+      feature_engineering:
+        enabled: true
+      handle_missing_values:
+        age_impute_method: grouped_median
+      handle_outliers:
+        enabled: true
+logging:
+  plot_format: png
+  report_format: csv
+  save_plots: true
+  save_report: true
+metrics:
+- accuracy
+- precision
+- recall
+- f1_score
+- roc_auc
+models:
+- class: sklearn.linear_model.LogisticRegression
+  name: Logistic Regression
+  params:
+    max_iter: 1000
+    random_state: 42
+- class: sklearn.ensemble.RandomForestClassifier
+  name: Random Forest
+  params:
+    n_estimators: 100
+    random_state: 42
+- class: sklearn.ensemble.GradientBoostingClassifier
+  name: Gradient Boosting
+  params:
+    n_estimators: 100
+    random_state: 42
+preprocessing:
+  steps:
+  - enabled: true
+    name: handle_missing_values
+    params:
+      age_impute_method: grouped_median
+      embarked_fill_value: S
+  - enabled: true
+    name: remove_duplicates
+    params: {}
+  - enabled: true
+    name: handle_outliers
+    params:
+      age_capping_percentile: 99
+      fare_capping_percentile: 95
+  - enabled: true
+    name: feature_engineering
+    params:
+      create_family_size: true
+      create_is_alone: true
+      extract_title: true
+  - enabled: true
+    name: binning
+    params:
+      age_bins:
+      - 0
+      - 12
+      - 18
+      - 30
+      - 45
+      - 60
+      - 100
+      age_labels:
+      - Child
+      - Teen
+      - Young Adult
+      - Adult
+      - Middle Age
+      - Senior
+      fare_groups: 4
+  - enabled: true
+    name: encoding
+    params:
+      drop_first: true
+      encoding_type: one_hot
+  - enabled: true
+    name: scaling
+    params:
+      features:
+      - age
+      - fare
+      - sibsp
+      - parch
+      - FamilySize
+      scaler_type: standard
+workflow:
+  author: Mohamad Rizki
+  date: '2024-01-15'
+  name: Titanic ML Experiment
+  version: 1.0.0
