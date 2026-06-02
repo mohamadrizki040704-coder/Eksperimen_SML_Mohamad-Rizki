@@ -23,13 +23,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy scikit-learn mlflow
       
-      - name: Run training script directly (without mlflow run)
+      - name: List directory structure (debug)
+        run: ls -la
+      
+      - name: Run training script
         run: |
-          cd MLProject
-          python modelling.py
+          python Workflow-CI/MLProject/modelling.py
       
       - name: Upload model artifact
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
-          path: MLProject/best_model.pkl
+          path: Workflow-CI/MLProject/best_model.pkl
